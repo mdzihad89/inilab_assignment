@@ -11,6 +11,14 @@ class FirstScreen extends StatefulWidget {
 
 class _FirstScreenState extends State<FirstScreen> {
   final themeController = Get.find<ThemeController>();
+  final TextEditingController nameController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
 
 
   @override
@@ -32,7 +40,43 @@ class _FirstScreenState extends State<FirstScreen> {
           ),
         ],
       ),
-      body: Container(),
+      body: Form(
+      key: _formKey,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter github user name';
+                }
+              },
+              controller: nameController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Enter your username ',
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white60,
+                  fixedSize:
+                  Size(MediaQuery.of(context).size.width * 0.5, 30)),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  Get.toNamed('/home', arguments: nameController.text.trim().toString());
+                  nameController.clear();
+                }
+              },
+              child: const Text("Submit"),
+            ),
+          ],
+        ),
+      ),
+    ),
     );
   }
 }

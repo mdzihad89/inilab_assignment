@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inilabs_assignment/pages/first_screen.dart';
+import 'package:inilabs_assignment/pages/home_page.dart';
 import 'controller/theme_controller.dart';
 
 void main() {
@@ -22,6 +23,10 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => const FirstScreen()),
+        GetPage(
+          name: '/home',
+          page: () => HomePage(username: Get.arguments),
+        ),
       ],
     );
   }
